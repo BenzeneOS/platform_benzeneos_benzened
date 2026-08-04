@@ -1,0 +1,36 @@
+# This is solely to get rust-analyzer working
+
+[package]
+name     = "benzened"
+authors  = [ "Amaan Qureshi <contact@amaanq.com>" ]
+version  = "0.0.0"
+edition  = "2024"
+publish  = false
+autobins = false
+
+[workspace]
+members = [ ".ide/app_benzeneos_benzened", ".ide/binder" ]
+
+# Pinned to what Soong builds
+[dependencies]
+android_logger         = "=0.15.1"
+app_benzeneos_benzened = { path = ".ide/app_benzeneos_benzened" }
+binder                 = { path = ".ide/binder" }
+elf                    = "=0.8.0"
+libc                   = "=0.2.183"
+log                    = "=0.4.29"
+pound                  = { path = "../platform_external_rust_benzeneos-crates/crates/pound" }
+serde                  = { version = "=1.0.219", features = [ "derive" ] }
+serde_json             = "=1.0.143"
+
+[[bin]]
+name = "benzened"
+path = "src/main.rs"
+
+[[bin]]
+name = "benzened_su_client"
+path = "su/src/main.rs"
+
+[[bin]]
+name = "benzened_trace"
+path = "trace/src/main.rs"

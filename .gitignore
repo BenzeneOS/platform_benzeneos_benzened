@@ -1,0 +1,43 @@
+# Ignore all
+*
+
+# Top-level
+!.cade
+!.editorconfig
+!.envrc
+!.gitignore
+!.ide/
+!.ide/**
+!.rustfmt.toml
+!.taplo.toml
+!.tack/
+!.tack/**
+!Cargo.toml
+!README.md
+!flake.nix
+
+# Soong module
+!Android.bp
+!benzened.mk
+!aidl/
+!aidl/**
+!etc/
+!etc/**
+
+# Sources
+!src/
+!src/**
+!su/
+!su/**
+!trace/
+!trace/**
+!runas/
+!runas/**
+
+# Nix
+!nix/
+!nix/**
+
+# CI
+!.github/
+!.github/**

@@ -1,0 +1,113 @@
+// Copyright (C) 2026 Amaan Qureshi <contact@amaanq.com>
+// SPDX-License-Identifier: Apache-2.0
+
+aidl_interface {
+    name: "app.benzeneos.benzened",
+    srcs: [
+        "aidl/app/benzeneos/benzened/IBenzened.aidl",
+        "aidl/app/benzeneos/benzened/IBenzenedGrants.aidl",
+        "aidl/app/benzeneos/benzened/ShellRequest.aidl",
+        "aidl/app/benzeneos/benzened/ShellSession.aidl",
+    ],
+    local_include_dir: "aidl",
+    unstable: true,
+    backend: {
+        rust: {
+            enabled: true,
+        },
+        java: {
+            enabled: true,
+            platform_apis: true,
+        },
+        cpp: {
+            enabled: false,
+        },
+        ndk: {
+            enabled: false,
+        },
+    },
+}
+
+rust_defaults {
+    name: "benzened_defaults",
+    crate_name: "benzened",
+    edition: "2024",
+    prefer_rlib: true,
+    rustlibs: [
+        "libandroid_logger",
+        "libbinder_rs",
+        "liblibc",
+        "liblog_rust",
+        "app.benzeneos.benzened-rust",
+    ],
+}
+
+rust_binary {
+    name: "benzened",
+    defaults: ["benzened_defaults"],
+    srcs: ["src/main.rs"],
+    init_rc: ["etc/init.benzene.rc"],
+}
+
+rust_test {
+    name: "benzened_test",
+    defaults: ["benzened_defaults"],
+    srcs: ["src/main.rs"],
+    test_suites: ["general-tests"],
+}
+
+rust_defaults {
+    name: "benzened_su_client_defaults",
+    crate_name: "benzened_su_client",
+    edition: "2024",
+    prefer_rlib: true,
+    rustlibs: [
+        "libbinder_rs",
+        "liblibc",
+        "app.benzeneos.benzened-rust",
+    ],
+}
+
+rust_binary {
+    name: "benzened_su_client",
+    defaults: ["benzened_su_client_defaults"],
+    srcs: ["su/src/main.rs"],
+}
+
+rust_test {
+    name: "benzened_su_client_test",
+    defaults: ["benzened_su_client_defaults"],
+    srcs: ["su/src/main.rs"],
+    test_suites: ["general-tests"],
+}
+
+rust_defaults {
+    name: "benzened_trace_defaults",
+    crate_name: "benzened_trace",
+    edition: "2024",
+    prefer_rlib: true,
+    rustlibs: [
+        "libelf_rust",
+        "liblibc",
+        "libpound",
+        "libserde",
+        "libserde_json",
+    ],
+    proc_macros: [
+        "libpound_derive",
+        "libserde_derive",
+    ],
+}
+
+rust_binary {
+    name: "benzened_trace",
+    defaults: ["benzened_trace_defaults"],
+    srcs: ["trace/src/main.rs"],
+}
+
+rust_test {
+    name: "benzened_trace_test",
+    defaults: ["benzened_trace_defaults"],
+    srcs: ["trace/src/main.rs"],
+    test_suites: ["general-tests"],
+}
